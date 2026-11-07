@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nanoagent-jwlieb-order-migration"
+version = "0.1.0"
+description = "Order Migration: a NanoAgent plugin"
+requires-python = ">=3.12"
+dependencies = ["mcp>=1.27,<2", "slimconfig", "pydantic==2.13.4"]
+
+[project.optional-dependencies]
+dev = ["pytest==9.2.0", "ruff==0.17.4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.uv.sources]
+slimconfig = { git = "https://github.com/zeyuyang8/slimconfig", branch = "master" }
+
+[tool.ruff]
+line-length = 120
+
+[tool.pytest.ini_options]
+# contract.py and verifier/ live at the plugin root.
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.setuptools]
+py-modules = ["contract"]
+
+[tool.setuptools.package-data]
+plugin = ["ci_project/**/*"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

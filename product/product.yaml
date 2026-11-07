@@ -1,0 +1,10 @@
+_ > nanoagent.plugin.v0001.ProductConfig:
+tagline: "Verify a practical order migration task"
+summary: "A reproducible software-maintenance task with typed tools, controlled execution, and deterministic checks of actual results."
+highlights:
+  - "Pinned offline fixtures and dependencies"
+  - "Artifact-bound evidence and independent correctness checks"
+steps:
+  - "Inspect the task and candidate files"
+  - "Make the repair or recovery plan"
+  - "Assess and submit the verified result"

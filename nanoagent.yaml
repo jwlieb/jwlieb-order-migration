@@ -1,0 +1,39 @@
+_ > nanoagent.plugin.v0001.ManifestConfig:
+id: jwlieb-order-migration
+name: Order Migration
+version: 0.1.0
+status: ready
+spec: nanoagent.plugin/v0001
+
+runtime > nanoagent.plugin.v0001.RuntimeConfig:
+  type: mcp_stdio
+  command: [uv, run, --frozen, python, -m, plugin]
+
+permissions > nanoagent.plugin.v0001.PermissionsConfig:
+  network > nanoagent.plugin.v0001.NetworkConfig:
+    hosts: []
+  filesystem > nanoagent.plugin.v0001.FilesystemConfig:
+    write: [workspace]
+
+tools > dict[contract.Tool, nanoagent.plugin.v0001.ToolConfig]:
+  pin_reference:
+    description: Pin raw fixture data and independent expected state before the agent starts
+  inspect_task:
+    description: Initialize and inspect the task specification, raw fixture, and editable candidate files
+  edit_files:
+    description: Replace only named candidate files; evaluator, fixtures, and receipts cannot be edited
+  assess:
+    description: Execute controlled checks and return a receipt bound to the actual candidate artifacts
+
+tasks > dict[contract.Task, nanoagent.plugin.v0001.TaskConfig]:
+  migrate-orders:
+    description: Complete the order migration task and establish correctness using actual artifacts
+    runner: agent
+    tools: [inspect_task, edit_files, assess]
+    reference: pin_reference
+    instructions: |-
+      Start by calling inspect_task with exactly the task input. Read its specification and candidate files.
+      Repair only the declared files with edit_files; supply complete replacement text.
+      Call assess, inspect its failures, and revise if needed. Remain within six agent steps.
+      Finish by calling submit with the final AssessmentOutput exactly as assess returned it.
+      Do not claim success from prose or modify checks. An invalid fixture may require a safe refusal, as the specification explains.
